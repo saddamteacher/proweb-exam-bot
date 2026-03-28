@@ -6,3 +6,4 @@ bot.db
 bot_stdout.log
 bot_stderr.log
 .idea/
+.vscode/
