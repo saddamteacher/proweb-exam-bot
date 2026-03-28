@@ -112,6 +112,13 @@ async def run_webhook(settings: Settings) -> None:
 async def main() -> None:
     configure_logging()
     settings = get_settings()
+    logging.info(
+        "Startup mode check | webhook_enabled=%s | webhook_base_url=%r | webhook_path=%s | port=%s",
+        settings.webhook_enabled,
+        settings.webhook_base_url,
+        settings.webhook_path,
+        settings.port,
+    )
     if settings.webhook_enabled:
         await run_webhook(settings)
         return
