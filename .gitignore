@@ -1,0 +1,8 @@
+.env
+.venv/
+__pycache__/
+*.py[cod]
+bot.db
+bot_stdout.log
+bot_stderr.log
+.idea/
