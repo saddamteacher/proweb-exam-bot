@@ -49,15 +49,30 @@ async def health_handler(_: web.Request) -> web.Response:
     return web.Response(text="ok")
 
 
+async def start_health_server(port: int) -> web.AppRunner:
+    app = web.Application()
+    app.router.add_get("/", health_handler)
+    app.router.add_get("/health", health_handler)
+
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, host="0.0.0.0", port=port)
+    await site.start()
+    logging.info("Health server started on 0.0.0.0:%s", port)
+    return runner
+
+
 async def run_polling(settings: Settings) -> None:
     database = await build_database(settings)
     bot = build_bot()
     dp = build_dispatcher(database, settings)
+    health_runner = await start_health_server(settings.port)
 
     try:
         await bot.delete_webhook(drop_pending_updates=False)
         await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
     finally:
+        await health_runner.cleanup()
         await bot.session.close()
         await database.close()
 

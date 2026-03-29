@@ -19,7 +19,7 @@ Asosiy env:
 
 Loyiha endi 2 rejimda ishlaydi:
 
-- `WEBHOOK_BASE_URL` bo'lmasa: `polling`
+- `WEBHOOK_BASE_URL` bo'lmasa: `polling + health server`
 - `WEBHOOK_BASE_URL` bo'lsa: `webhook + /health`
 
 Render uchun:
