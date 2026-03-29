@@ -1,5 +1,6 @@
 from functools import lru_cache
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 from dotenv import load_dotenv
 from pydantic import Field
@@ -19,6 +20,7 @@ class Settings(BaseSettings):
     webhook_base_url: str = Field(default="", alias="WEBHOOK_BASE_URL")
     webhook_path: str = Field(default="/webhook", alias="WEBHOOK_PATH")
     webhook_secret: str = Field(default="proweb-exam-secret", alias="WEBHOOK_SECRET")
+    timezone_name: str = Field(default="Asia/Tashkent", alias="TIMEZONE")
 
     model_config = SettingsConfigDict(
         env_file=BASE_DIR / ".env",
@@ -43,6 +45,10 @@ class Settings(BaseSettings):
     @property
     def webhook_url(self) -> str:
         return f"{self.webhook_base_url.rstrip('/')}{self.webhook_path}"
+
+    @property
+    def timezone(self) -> ZoneInfo:
+        return ZoneInfo(self.timezone_name)
 
 
 @lru_cache

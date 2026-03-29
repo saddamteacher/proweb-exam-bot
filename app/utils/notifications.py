@@ -49,7 +49,7 @@ async def send_result_notification(
     lang = normalize_lang(lang_code)
     tr = NOTIFICATION_TRANSLATIONS[lang]
     flag = "🇺🇿" if lang == "uz" else "🇷🇺"
-    timestamp = datetime.now().strftime("%H:%M %d/%m/%Y")
+    timestamp = datetime.now(settings.timezone).strftime("%H:%M %d/%m/%Y")
 
     text = (
         f"<b>{tr['title']}</b>\n\n"
